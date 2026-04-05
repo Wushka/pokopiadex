@@ -10,10 +10,13 @@ class PokemonsController < ApplicationController
     @spec =  @decoded["spec"] || []
     @hab =  @decoded["hab"]
 
-    @pokemons = Pokemon.all.includes(:favorites, :specialities, :habitat)
-    @pokemons = @pokemons.with_favorites(@fav) if @fav.any?
-    @pokemons = @pokemons.with_specialities(@spec) if @spec.any?
-    @pokemons = @pokemons.with_habitat(@hab) if @hab
+    pokemons_for_filter = Pokemon.all.includes(:favorites, :specialities, :habitat)
+    fav_pokemons =pokemons_for_filter.with_favorites(@fav) if @fav.any?
+    spec_pokemons =pokemons_for_filter.with_specialities(@spec) if @spec.any?
+    hab_pokemons = pokemons_for_filter.with_habitat(@hab) if @hab
+
+    @pokemons = Pokemon.where(id: [fav_pokemons, spec_pokemons, hab_pokemons].compact.reduce(:&))
+    @pokemons = pokemons_for_filter if @pokemons.empty?
   end
 
   # GET /pokemons/1 or /pokemons/1.json
