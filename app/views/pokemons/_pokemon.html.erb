@@ -1,0 +1,20 @@
+<div id="<%= dom_id pokemon %>" class="flex flex-row grow">
+  <div class="mx-auto">
+    <label class="py-4"><%= pokemon.name %></label>
+  </div>
+  <div class="mx-auto">
+    <%= link_to url_for(pokemon) do %>
+      <%= image_tag pokemon.full_picture_url%>
+    <% end %>
+  </div>
+  <div class="mx-auto">
+    <% pokemon.specialities.each do |spec| %>
+      <p><%= spec.name %></p>
+    <% end %>
+  </div>
+  <div class="mx-auto">
+    <% pokemon.favorites.each do |fav| %>
+      <p><%= fav.name %></p>
+    <% end %>
+  </div>
+</div>
