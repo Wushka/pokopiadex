@@ -1,0 +1,6 @@
+<p class="text-2xl">
+  <%= value %>
+  <%= link_to "[X]",
+  pokemons_path(filter: remove_value_from_filter(filter, key, value)),
+  data: { turbo_stream: true} %>
+</p>

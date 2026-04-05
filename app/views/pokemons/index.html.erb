@@ -4,30 +4,27 @@
 <%= link_to "RESET", pokemons_path, class: "font-bold" %>
 <div class="flex flex-row">
   <div>
-    <% unless @fav.blank?%>
-      <p class="font-bold">Favorites</p>
-      <% @fav.each do |fav| %>
-        <p class="text-2xl">
-          <%= fav %>
-          <%= link_to "[X]",
-          pokemons_path(filter: remove_value_from_filter(@decoded, "fav", fav)),
-          data: { turbo_stream: true} %>
-        </p>
+    <h1>Filters</h1>
+    <div class="font-bold flex space-x-2">
+      <% @decoded.each do |key, val| %>
+        <% unless val.blank? %>  
+          <div class="border-solid border-2 rounded-lg p-2 m-2">    
+            <% case val %>
+            <% when String %>
+              <p class="font-bold"><%= key.capitalize %></p>
+              <%= render partial: "remove_from_fitler_link", locals: {filter: @decoded, key: key, value: val} %>
+            <% when Array %>
+              <p class="font-bold"><%= key.capitalize %></p>
+              <% val.each do |value| %>
+                <%= render partial: "remove_from_fitler_link", locals: {filter: @decoded, key: key, value: value} %>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
       <% end %>
-    <% end %>
-  </div>
-  <div>
-    <% unless @spec.blank?%>
-      <p class="font-bold">Specialities</p>
-      <% @spec.each do |spec| %>
-        <p class="text-2xl">
-          <%= spec %>
-          <%= link_to "[X]",
-          pokemons_path(filter: remove_value_from_filter(@decoded, "spec", spec)),
-          data: { turbo_stream: true} %>
-        </p>
-      <% end %>
-    <% end %>
+    </div>
+
+    
   </div>
 </div>
 
