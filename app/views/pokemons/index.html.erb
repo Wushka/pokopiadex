@@ -4,58 +4,56 @@
 <%= link_to "RESET", pokemons_path, class: "font-bold" %>
 <div class="flex flex-row">
   <div class="flex flex-row">
-    <div class="flex flex-row">
-      <div class="border-solid border-2 rounded-lg p-2 m-2 grid gap-y-2">
-        <p class="text-2xl font-bold">Habitats:</p>
-        <% Habitat.all.each do |habitat| %>
-        <% count = @pokemons_for_hab.filter{|p| p.habitat == habitat}.count %>
-          <div class="flex gap-x-2">
-            <%= link_to "#{habitat.name} (#{count})",
-            pokemons_path(filter: add_value_to_filter(@decoded, "hab", habitat.name)),
-            data: { turbo_stream: true} %>
-          </div>
-        <% end %>
-      </div>
-      <div class="border-solid border-2 rounded-lg p-2 m-2 grid gap-y-2">
-        <p class="text-2xl font-bold">Specialities:</p>
-        <% Speciality.all.each do |speciality| %>
-        <% count = @pokemons.filter{|p| p.specialities.include?(speciality)}.count %>
-          <div class="flex gap-x-2">
-            <%= link_to "#{speciality.name} (#{count})",
-            pokemons_path(filter: add_value_to_filter(@decoded, "spec", speciality.name)),
-            data: { turbo_stream: true} %>
-          </div>
-        <% end %>
-      </div>
-      <div class="border-solid border-2 rounded-lg p-2 m-2 grid gap-y-2">
-        <p class="text-2xl font-bold">Favorites:</p>
-        <% Favorite.all.each do |favorite| %>
-        <% count = @pokemons.filter{|p| p.favorites.include?(favorite)}.count %>
-          <div class="flex gap-x-2">
-            <%= link_to "#{favorite.name} (#{count})",
-            pokemons_path(filter: add_value_to_filter(@decoded, "fav", favorite.name)),
-            data: { turbo_stream: true} %>
-          </div>
-        <% end %>
-      </div>
-      <div>
-        <div class="font-bold grid grid-cols-1 gap-y-2">
-          <% @decoded.each do |key, val| %>
-            <% unless val.blank? %>  
-              <div class="border-solid border-2 rounded-lg p-2 m-2">    
-                <p class="text-2xl font-bold"><%= key.capitalize %></p>
-                <% case val %>
-                <% when String %>
-                  <%= render partial: "remove_from_filter_link", locals: {filter: @decoded, key: key, value: val} %>
-                <% when Array %>
-                  <% val.each do |value| %>
-                    <%= render partial: "remove_from_filter_link", locals: {filter: @decoded, key: key, value: value} %>
-                  <% end %>
-                <% end %>
-              </div>
-            <% end %>
-          <% end %>
+    <div class="border-solid border-2 rounded-lg p-2 m-2 grid gap-y-2">
+      <p class="text-2xl font-bold">Habitats:</p>
+      <% Habitat.all.each do |habitat| %>
+      <% count = @pokemons_for_hab.filter{|p| p.habitat == habitat}.count %>
+        <div class="flex gap-x-2">
+          <%= link_to "#{habitat.name} (#{count})",
+          pokemons_path(filter: add_value_to_filter(@decoded, "hab", habitat.name)),
+          data: { turbo_stream: true} %>
         </div>
+      <% end %>
+    </div>
+    <div class="border-solid border-2 rounded-lg p-2 m-2 grid gap-y-2">
+      <p class="text-2xl font-bold">Specialities:</p>
+      <% Speciality.all.each do |speciality| %>
+      <% count = @pokemons.filter{|p| p.specialities.include?(speciality)}.count %>
+        <div class="flex gap-x-2">
+          <%= link_to "#{speciality.name} (#{count})",
+          pokemons_path(filter: add_value_to_filter(@decoded, "spec", speciality.name)),
+          data: { turbo_stream: true} %>
+        </div>
+      <% end %>
+    </div>
+    <div class="border-solid border-2 rounded-lg p-2 m-2 grid gap-y-2">
+      <p class="text-2xl font-bold">Favorites:</p>
+      <% Favorite.all.each do |favorite| %>
+      <% count = @pokemons.filter{|p| p.favorites.include?(favorite)}.count %>
+        <div class="flex gap-x-2">
+          <%= link_to "#{favorite.name} (#{count})",
+          pokemons_path(filter: add_value_to_filter(@decoded, "fav", favorite.name)),
+          data: { turbo_stream: true} %>
+        </div>
+      <% end %>
+    </div>
+    <div>
+      <div class="font-bold grid grid-cols-1 gap-y-2">
+        <% @decoded.each do |key, val| %>
+          <% unless val.blank? %>  
+            <div class="border-solid border-2 rounded-lg p-2 m-2">    
+              <p class="text-2xl font-bold"><%= key.capitalize %></p>
+              <% case val %>
+              <% when String %>
+                <%= render partial: "remove_from_filter_link", locals: {filter: @decoded, key: key, value: val} %>
+              <% when Array %>
+                <% val.each do |value| %>
+                  <%= render partial: "remove_from_filter_link", locals: {filter: @decoded, key: key, value: value} %>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
       </div>
     </div>
   </div>
