@@ -15,8 +15,9 @@ class PokemonsController < ApplicationController
     spec_pokemons =pokemons_for_filter.with_specialities(@spec) if @spec.any?
     hab_pokemons = pokemons_for_filter.with_habitat(@hab) if @hab
 
-    @pokemons = Pokemon.where(id: [fav_pokemons, spec_pokemons, hab_pokemons].compact.reduce(:&))
-    @pokemons = pokemons_for_filter if @pokemons.empty?
+    @pokemons_for_hab = pokemons_for_filter.where(id: [fav_pokemons, spec_pokemons].compact.reduce(:&))
+    @pokemons = pokemons_for_filter.where(id: [fav_pokemons, spec_pokemons, hab_pokemons].compact.reduce(:&))
+    @pokemons = pokemons_for_filter if @pokemons.empty? && fav_pokemons.blank? && spec_pokemons.blank? && hab_pokemons.blank?
   end
 
   # GET /pokemons/1 or /pokemons/1.json
